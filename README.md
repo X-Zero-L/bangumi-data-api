@@ -62,6 +62,17 @@ GET /api/v1/items?limit=100&offset=0
 GET /api/v1/items/bgm/{bgm_id}
 ```
 
+#### 批量获取多个 BGM ID 的番组
+```http
+# GET方式 - 用逗号分隔ID
+GET /api/v1/items/bgm/batch?ids=123,456,789
+
+# POST方式 - 发送JSON数组
+POST /api/v1/items/bgm/batch
+Content-Type: application/json
+["123", "456", "789"]
+```
+
 #### 搜索番组
 ```http
 GET /api/v1/items/search?title=进击&type=tv&lang=ja&year=2023&limit=50
@@ -74,12 +85,32 @@ GET /api/v1/items/search?title=进击&type=tv&lang=ja&year=2023&limit=50
 - `year`: 年份过滤
 - `limit`: 返回数量限制
 
+#### 批量搜索番组
+```http
+POST /api/v1/items/search/batch
+Content-Type: application/json
+{
+  "queries": [
+    {"title": "进击", "type": "tv"},
+    {"year": 2023, "lang": "ja"}
+  ],
+  "limit": 50
+}
+```
+
 #### 根据站点获取番组
 ```http
 GET /api/v1/items/site/{site_name}?limit=100
 ```
 
 支持的站点：bilibili, netflix, crunchyroll 等
+
+#### 批量获取多个站点的番组
+```http
+POST /api/v1/items/sites/batch
+Content-Type: application/json
+["bilibili", "netflix", "crunchyroll"]
+```
 
 #### 获取站点元数据
 ```http
