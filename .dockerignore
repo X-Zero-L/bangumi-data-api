@@ -1,0 +1,19 @@
+# Logs directory
+logs/
+
+# Cache directory  
+cache/
+
+# SSL certificates
+ssl/
+
+# Environment variables
+.env
+
+# Development database
+*.db
+*.sqlite
+
+# Temporary files
+tmp/
+temp/

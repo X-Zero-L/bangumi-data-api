@@ -1,0 +1,21 @@
+services:
+  bangumi-api:
+    build: .
+    container_name: bangumi-data-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      - CACHE_TTL=3600
+      # 可选的API Key认证，取消注释下面两行来启用
+      # - REQUIRE_API_KEY=true
+      # - API_KEYS=your-secret-api-key-1,your-secret-api-key-2
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
