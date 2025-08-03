@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     port: int = 8000
     
     # API Key 配置
-    api_keys: Optional[List[str]] = None
+    api_keys: Optional[str] = None
     require_api_key: bool = False
     
     # 缓存配置
@@ -29,6 +29,13 @@ class Settings(BaseSettings):
     
     # 日志配置
     log_level: str = "INFO"
+    
+    @property
+    def api_keys_list(self) -> List[str]:
+        """将API_KEYS字符串转换为列表"""
+        if not self.api_keys:
+            return []
+        return [key.strip() for key in self.api_keys.split(",") if key.strip()]
     
     class Config:
         env_file = ".env"

@@ -17,7 +17,8 @@ async def verify_api_key(credentials: HTTPAuthorizationCredentials = Security(se
             detail="API key required"
         )
     
-    if not settings.api_keys or credentials.credentials not in settings.api_keys:
+    api_keys_list = settings.api_keys_list
+    if not api_keys_list or credentials.credentials not in api_keys_list:
         raise HTTPException(
             status_code=401,
             detail="Invalid API key"

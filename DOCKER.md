@@ -32,7 +32,19 @@ docker run -d \
 
 ## 配置选项
 
-### 环境变量
+### 环境变量配置
+
+创建 `.env` 文件来配置服务：
+
+```bash
+# 复制示例配置
+cp .env.example .env
+
+# 编辑配置
+nano .env
+```
+
+主要配置项：
 
 - `HOST`: 监听地址 (默认: 0.0.0.0)
 - `PORT`: 监听端口 (默认: 8000)
@@ -41,14 +53,23 @@ docker run -d \
 - `REQUIRE_API_KEY`: 是否需要 API Key (默认: false)
 - `API_KEYS`: API 密钥列表，逗号分隔
 
+### 端口配置示例
+
+```bash
+# .env 文件
+PORT=9000
+HOST=0.0.0.0
+```
+
+这样配置后，服务会在 9000 端口启动，Docker 也会自动映射 9000:9000。
+
 ### 启用 API Key 认证
 
-在 `docker-compose.yml` 中取消注释：
+在 `.env` 文件中设置：
 
-```yaml
-environment:
-  - REQUIRE_API_KEY=true
-  - API_KEYS=your-secret-key-1,your-secret-key-2
+```bash
+REQUIRE_API_KEY=true
+API_KEYS=your-secret-key-1,your-secret-key-2
 ```
 
 ## 服务访问
