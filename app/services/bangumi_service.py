@@ -18,7 +18,8 @@ class BangumiDataService:
         
     async def _fetch_data(self) -> BangumiData:
         """从远程获取数据"""
-        async with httpx.AsyncClient(follow_redirects=True) as client:
+        timeout = httpx.Timeout(30.0, connect=10.0)
+        async with httpx.AsyncClient(follow_redirects=True, timeout=timeout) as client:
             response = await client.get(self.data_url)
             response.raise_for_status()
             data = response.json()

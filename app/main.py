@@ -1,7 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 from app.core.config import settings
 from app.api.bangumi import router as bangumi_router
+
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """添加安全响应头"""
+    async def dispatch(self, request: Request, call_next):
+        response: Response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        return response
 
 
 def create_app() -> FastAPI:
@@ -13,6 +27,9 @@ def create_app() -> FastAPI:
         docs_url="/docs",
         redoc_url="/redoc"
     )
+    
+    # 安全头中间件
+    app.add_middleware(SecurityHeadersMiddleware)
     
     # CORS中间件
     app.add_middleware(
