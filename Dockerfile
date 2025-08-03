@@ -25,9 +25,11 @@ RUN uv sync --frozen --no-cache
 # Copy application code
 COPY . .
 
-# Create non-root user for security
+# Create non-root user for security and set up proper permissions
 RUN groupadd -r appuser && useradd -r -g appuser appuser \
-    && chown -R appuser:appuser /app
+    && mkdir -p /home/appuser/.cache \
+    && chown -R appuser:appuser /app /home/appuser
+
 USER appuser
 
 # Expose port
